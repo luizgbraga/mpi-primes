@@ -43,9 +43,11 @@ void master(long int n, int num_procs) {
     long int fim_tarefa;
     int workers_ativos = num_procs - 1;
     int result;
+    int i;
+    int worker_id;
     MPI_Status status;
     
-    for (int i = 1; i < num_procs; i++) {
+    for (i = 1; i < num_procs; i++) {
         if (inicio_tarefa <= n) {
             fim_tarefa = inicio_tarefa + TASK_SIZE - 1;
             if (fim_tarefa > n) fim_tarefa = n;
@@ -65,7 +67,7 @@ void master(long int n, int num_procs) {
         MPI_Recv(&result, 1, MPI_INT, MPI_ANY_SOURCE, TAG_RESULT, MPI_COMM_WORLD, &status);
         total_primos += result;
         
-        int worker_id = status.MPI_SOURCE;
+        worker_id = status.MPI_SOURCE;
         
         if (inicio_tarefa <= n) {
             fim_tarefa = inicio_tarefa + TASK_SIZE - 1;
