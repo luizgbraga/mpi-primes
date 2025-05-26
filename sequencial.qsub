@@ -1,0 +1,21 @@
+#!/bin/bash
+# sequencial.qsub
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -N seq_primos
+
+# Verificar se N_VALUE foi passado
+if [ -z "$N_VALUE" ]; then
+    echo "Erro: N_VALUE não foi definido"
+    exit 1
+fi
+
+echo "Executando versão sequencial para N = $N_VALUE"
+echo "Início: $(date)"
+echo "Host: $(hostname)"
+
+# Executar programa sequencial
+/home/aluno/braga/mpi-primes/sequencial $N_VALUE
+
+echo "Fim: $(date)"

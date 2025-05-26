@@ -1,0 +1,25 @@
+#!/bin/bash
+# paralelo_v1.qsub
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -N v1_primos
+
+# Verificar se N_VALUE foi passado
+if [ -z "$N_VALUE" ]; then
+    echo "Erro: N_VALUE não foi definido"
+    exit 1
+fi
+
+# Obter número de processadores do ambiente SGE
+NPROCS=$NSLOTS
+
+echo "Executando versão paralela 1 para N = $N_VALUE com $NPROCS processadores"
+echo "Início: $(date)"
+echo "Host: $(hostname)"
+echo "Processadores alocados: $NPROCS"
+
+# Executar programa paralelo versão 1
+mpirun -np $NPROCS /home/aluno/braga/mpi-primes/paralelo_v1 $N_VALUE
+
+echo "Fim: $(date)"
