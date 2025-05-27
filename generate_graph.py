@@ -5,25 +5,26 @@ import pandas as pd
 def calcular_speedup(df, n_value):
     df_n = df[df["N"] == n_value]
 
-    tempo_seq = df_n[df_n["Versao"] == "Sequencial"]["Tempo"].iloc[0]
+    sequencial_row = df_n[df_n["Versao"] == "Sequencial"]
+
+    if sequencial_row.empty:
+        raise ValueError(f"Nenhuma entrada 'Sequencial' encontrada para N = {n_value}")
+
+    tempo_seq = sequencial_row["Tempo"].iloc[0]
 
     speedup_data = {"Procs": [], "Versao1": [], "Versao2": []}
 
     for procs in range(2, 17):
         speedup_data["Procs"].append(procs)
 
-        tempo_v1 = df_n[(df_n["Versao"] == "Versao1") & (df_n["Procs"] == procs)][
-            "Tempo"
-        ]
+        tempo_v1 = df_n[(df_n["Versao"] == "Versao1") & (df_n["Procs"] == procs)]["Tempo"]
         if not tempo_v1.empty:
             speedup_v1 = tempo_seq / tempo_v1.iloc[0]
             speedup_data["Versao1"].append(speedup_v1)
         else:
             speedup_data["Versao1"].append(0)
 
-        tempo_v2 = df_n[(df_n["Versao"] == "Versao2") & (df_n["Procs"] == procs)][
-            "Tempo"
-        ]
+        tempo_v2 = df_n[(df_n["Versao"] == "Versao2") & (df_n["Procs"] == procs)]["Tempo"]
         if not tempo_v2.empty:
             speedup_v2 = tempo_seq / tempo_v2.iloc[0]
             speedup_data["Versao2"].append(speedup_v2)
@@ -35,10 +36,12 @@ def calcular_speedup(df, n_value):
 
 def gerar_graficos():
     df = pd.read_csv(
-        "resultados.txt", comment="#", names=["N", "Procs", "Versao", "Tempo", "Primos"]
+        "resultados_finais.txt", comment="#", names=["N", "Procs", "Versao", "Tempo", "Primos", "JobID"]
     )
 
+
     df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+    df["Versao"] = df["Versao"].str.strip() 
 
     df["N"] = df["N"].astype(int)
     df["Procs"] = df["Procs"].astype(int)

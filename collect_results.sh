@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOME_DIR="/home/aluno/mpi-primes"
+HOME_DIR="."
 RESULTS_DIR="$HOME_DIR/resultados"
 FINAL_RESULTS="$RESULTS_DIR/resultados_finais.txt"
 
