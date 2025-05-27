@@ -9,6 +9,9 @@ This project implements and compares three versions of a prime number counting a
 - **Parallel v1**: Jump-based distribution (static load balancing)
 - **Parallel v2**: Bag-of-tasks pattern (dynamic load balancing)
 
+<img width="1172" alt="image" src="https://github.com/user-attachments/assets/6a4797b8-024a-4e25-a758-8a042d56520c" />
+
+
 ## How to run
 ```bash
 # Copy files to the cluster
